@@ -1,16 +1,26 @@
 <?php
-require_once 'assets/db.php';
-
-
+require_once 'assets/db.php';//Tillfälig kontroll.
+require_once 'assets/sessioncheck.php';
+require_once 'assets/functions.php';
+session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Index</title>
+    <link rel = "stylesheet" href=""/> <!--Tillfälg-->
 </head>
 <body>
-    
+    <header>
+        <div class="navbar">
+            <h1>Titel</h1>
+            <!--Tillfälg struktur för navbar-->
+        </div>
+</header>
+
+<!--Innehåll-->
+
 </body>
 </html>
