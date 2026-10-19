@@ -8,7 +8,6 @@ if (isset($_POST['submit'])){
 
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = $_POST['password'];
-    $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     //Ev. tilläg av roller.
 
@@ -19,9 +18,9 @@ if (isset($_POST['submit'])){
         {
             $user = getUser($username);
 
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['name'] = $user['name'];
+            $_SESSION['username'] = $user['anvandarnamn'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['password'] = $user['losenord'];
             header('Location: index.php');
             exit();
         }
