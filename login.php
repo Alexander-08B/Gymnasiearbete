@@ -3,15 +3,16 @@ require_once 'assets/functions.php';
 session_start();
 
 if (isset($_POST['submit'])){
-    $username = $_POST['username'];
+    $username = $_POST['username'];//Undersök.
     $password = $_POST['password'];
 
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = $_POST['password'];
-    $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+    //$email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     //Ev. tilläg av roller.
 
     $filter = array('username' => $username, 'password' => $password);
+    print_r($filter);//Tillfälligt.
     print_r($filter);//Tillfälligt.
 
     if(login($username, $password))
@@ -19,7 +20,7 @@ if (isset($_POST['submit'])){
             $user = getUser($username);
 
             $_SESSION['username'] = $user['anvandarnamn'];
-            $_SESSION['email'] = $user['email'];
+            //$_SESSION['email'] = $user['email'];
             $_SESSION['password'] = $user['losenord'];
             header('Location: index.php');
             exit();
@@ -52,7 +53,7 @@ if (isset($_POST['submit'])){
         <label for="password">Lösenord:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <input type="submit" name="submit" value="Login">
+        <input type="submit" name="submit" value="Logga in">
     </form>
     <p><a href="signup.php">Har du inget konto?</a></p>
 </body>

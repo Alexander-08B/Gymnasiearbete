@@ -21,12 +21,13 @@ if(isset($_POST['submit'])){
                 $_SESSION['email']= $email;
                 $_SESSION['password']= $password;
                 header("Location: index.php");
+                exit();
             }
             else{
                 $error = true;
             }
         } else{
-            $error = false;
+            $error = true;
         }
 }
 ?>
@@ -60,7 +61,7 @@ if(isset($_POST['submit'])){
         <label for="password">Lösenord: </label>
         <input type="password" id="password" name="password" required>
         <br>
-        <input type="submit" name="submit" value="Login">
+        <input type="submit" name="submit" value="Registrera">
     </form>
     <p><a href="login.php">Har du redan ett konto?</a></p>
 </body>

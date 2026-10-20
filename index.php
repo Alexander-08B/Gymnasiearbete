@@ -16,6 +16,7 @@ session_start();
     <header>
         <div class="navbar">
             <h1>Titel</h1>
+            <p><a href ="logout.php">Logga ut</a></p>
             <!--Tillfälg struktur för navbar-->
         </div>
 </header>
