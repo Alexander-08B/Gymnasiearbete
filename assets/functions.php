@@ -1,5 +1,5 @@
-<<?php
-require_once 'assets/db.php';
+<?php
+require_once 'db.php';
 
 function login($username, $password) {
     global $ordbank;
@@ -50,4 +50,3 @@ function addUser($felt){
         return false;
     }
 }
-?>

@@ -7,10 +7,17 @@ Hantera dubbletter av användarnamn och e-postadress.
 Kontrollera resultatet från FILTER_VALIDATE_EMAIL och säkerställ att ogiltiga adresser inte skickas till databasen.
 Lägg till lösenordskrav.
 Viktigast! Skriv kodkommentarer.
+Implementera ovanstående vid senare tillfälle.
 
 
 Beträffande login.php
-Ta bort onödig hämtning och validering av e-postadress.
+Ta bort onödig hämtning och validering av e-postadress. Klar!
 Säkerställ konsekvent hantering av användarnamn vid registrering och inloggning, inklusive eventuell användning av trim().
-Kontrollera i PHP att användarnamn och lösenord finns och inte är tomma.(kanske)
 Viktigast! Skriv kodkommentarer.
+Implementera ovanstående vid senare tillfälle.
+
+
+Planera utformningen av word.php och dess tillhörande funktioner/filer som behöver implementeras.
+Sökfil med funktion i functions.php. Syftet är att den nyttjar funktionen för att dirigera användaren till det sökta ordet som befinner sig i word.php. 
+Där själva word.php är en fil som innehåller ord x och dess tillhörande exempel meningar, antonymer, synonymer, osv. 
+Ord x är inte hårdkodad, utan är alltid endast ett ord, det ord som söktes efter.
