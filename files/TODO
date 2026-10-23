@@ -21,3 +21,7 @@ Planera utformningen av word.php och dess tillhörande funktioner/filer som beh�
 Sökfil med funktion i functions.php. Syftet är att den nyttjar funktionen för att dirigera användaren till det sökta ordet som befinner sig i word.php. 
 Där själva word.php är en fil som innehåller ord x och dess tillhörande exempel meningar, antonymer, synonymer, osv. 
 Ord x är inte hårdkodad, utan är alltid endast ett ord, det ord som söktes efter.
+
+Functions.php innehåller samtliga funktioner.
+Search.php använder funktioner för att söka efter ord samt dirigera användaren till word.php
+Word.php är sidan där det sökta ordet och dess tillhörande information blir uppvisat.

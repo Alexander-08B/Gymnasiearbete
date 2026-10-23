@@ -22,6 +22,7 @@ session_start();
 </header>
 
 <!--Innehåll-->
+ <p><a href ="search.php">Sök efter ord</a></p>
 
 </body>
 </html>

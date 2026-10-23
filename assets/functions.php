@@ -50,3 +50,15 @@ function addUser($felt){
         return false;
     }
 }
+
+function searchWord($search){
+    global $ordbank;
+
+    $sql = "SELECT * FROM ord WHERE ord = :word";
+
+    $stmt = $ordbank->prepare($sql);
+
+    $stmt->bindValue(':word', $search);
+    $stmt->execute();
+    return $stmt;
+}
