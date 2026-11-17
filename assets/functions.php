@@ -53,6 +53,10 @@ function addUser($felt){
 
 function searchWord($search){
     global $ordbank;
+  
+// Sökning på endast ordet prov
+// SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE ord = 'prov';
+//$sql = "SELECT * FROM ord INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE ord = :word";
 
     $sql = "SELECT * FROM ord WHERE ord = :word";
 
@@ -62,3 +66,11 @@ function searchWord($search){
     $stmt->execute();
     return $stmt;
 }
+
+function getDef($word){
+    global $ordbank;
+  // Sökning på definitioner som innehåller ordet "eller"
+// SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE definition.definition LIKE '%eller%';
+}
+//SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE definition.ord_id = '1';
+
