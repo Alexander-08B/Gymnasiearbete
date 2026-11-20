@@ -2,12 +2,23 @@
 require_once 'assets/functions.php';
 session_start();
 
-$records = null;
-$word = trim($_GET['word'] ?? '');
+$wordInfo = [];
 
-if ($word !== '') {
-    $records = searchWord($word);
-}//Test
+if (isset($_GET['word'])) {
+
+    $search = trim($_GET['word']);
+
+    if ($search !== '') {
+
+        // Hitta ordets ID
+        $record = searchWord($search);
+
+        // Hämta information om ordet
+        if ($record) {
+            $wordInfo = getWordInfo($record['ord_id']);
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,19 +40,48 @@ if ($word !== '') {
 </header>
 
 <!--Innehåll-->
- <table id="dbres">
-            <tr>
-                <th>Ord</th>
-                <th>Ord typ</th>
-            </tr>
- <?php do { ?>
-                <tr>
-                    <td><?php echo ($wrd['ord']); ?></td>
-                    <td><?php echo nl2br($wrd['ord_typ']); ?></td>
-                </tr>
+<?php if (!empty($wordInfo)): ?>
 
-            <?php } while ($wrd = $records->fetch(PDO::FETCH_ASSOC)); ?>
-        </table>
+<table id="dbres">
 
+    <tr>
+        <th>Ord</th>
+        <td><?= htmlspecialchars($wordInfo[0]['ord'] ?? '') ?></td>
+    </tr>
+
+    <tr>
+        <th>Ordtyp</th>
+        <td><?= htmlspecialchars($wordInfo[0]['ord_typ'] ?? '') ?></td>
+    </tr>
+
+    <tr>
+        <th>Definition</th>
+        <td>
+            <?php foreach ($wordInfo as $wrd): ?>
+                <p><?= htmlspecialchars($wrd['definition'] ?? '') ?></p>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Exempelmeningar</th>
+        <td>
+            <?php foreach ($wordInfo as $wrd): ?>
+                <?php foreach (explode('|', $wrd['exempelmeningar'] ?? '') as $mening): ?>
+                    <?php if ($mening !== ''): ?>
+                        <p><?= htmlspecialchars($mening) ?></p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+
+</table>
+
+<?php else: ?>
+
+    <p>Ordet kunde inte hittas.</p>
+
+<?php endif; ?>
 </body>
 </html>

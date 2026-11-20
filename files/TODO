@@ -25,4 +25,4 @@ Ord x är inte hårdkodad, utan är alltid endast ett ord, det ord som söktes e
 Functions.php innehåller samtliga funktioner.
 Search.php använder funktioner för att söka efter ord samt dirigera användaren till word.php
 Word.php är sidan där det sökta ordet och dess tillhörande information blir uppvisat.
-Left join och group_contact mellan tabellerna via kolumnerna ord_id och def_id
+Samanslut tabellen ord_relation till den stora sql-frågan(DISTNICT kan behövas).

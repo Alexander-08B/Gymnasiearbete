@@ -54,19 +54,53 @@ function addUser($felt){
 function searchWord($search){
     global $ordbank;
 
-    $sql = "SELECT * FROM ord WHERE ord = :word";
+    $sql = "SELECT ord, ord_id FROM ord WHERE ord = :search";
 
     $stmt = $ordbank->prepare($sql);
 
-    $stmt->bindValue(':word', $search);
+    $stmt->bindValue(':search', $search,PDO::PARAM_STR);
     $stmt->execute();
-    return $stmt;
-
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function getDef($word){
+function getWordInfo($wordId){
     global $ordbank;
+
+    $sql = "SELECT
+    ord.ord_id,
+    ord.ord,
+    ord.ord_typ,
+    definition.def_id,
+    definition.definition,
+    GROUP_CONCAT(
+        ex_mening.mening
+        SEPARATOR '|'
+    ) AS exempelmeningar
+
+FROM ord
+
+LEFT JOIN definition
+    ON ord.ord_id = definition.ord_id
+
+LEFT JOIN ex_mening
+    ON definition.def_id = ex_mening.def_id
+
+WHERE ord.ord_id = :wordId
+
+GROUP BY
+    ord.ord_id,
+    ord.ord,
+    ord.ord_typ,
+    definition.def_id,
+    definition.definition";
+
+    $stmt = $ordbank->prepare($sql);
+
+    $stmt->bindValue(':wordId', $wordId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 // Sökning på endast ordet prov
 // SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE ord = 'prov';
 //$sql = "SELECT * FROM ord INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE ord = :word";
