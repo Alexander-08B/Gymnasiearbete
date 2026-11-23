@@ -66,28 +66,28 @@ function searchWord($search){
 function getWordInfo($wordId){
     global $ordbank;
 
-    $sql = "SELECT
+    $sql = "SELECT/*Väljer den information som ska hämtas*/
     ord.ord_id,
     ord.ord,
     ord.ord_typ,
     definition.def_id,
     definition.definition,
-    GROUP_CONCAT(
+    GROUP_CONCAT(/*Sammanfogar en definitions befintliga exM till en och samma rad.*/
         ex_mening.mening
         SEPARATOR '|'
-    ) AS exempelmeningar
+    ) AS exempelmeningar/*Alias.*/
 
-FROM ord
+FROM ord/*Utgångspunkt*/
 
 LEFT JOIN definition
-    ON ord.ord_id = definition.ord_id
+    ON ord.ord_id = definition.ord_id/*Kopplar ihop tabellerna via ord_id(villkor)*/
 
 LEFT JOIN ex_mening
     ON definition.def_id = ex_mening.def_id
 
-WHERE ord.ord_id = :wordId
+WHERE ord.ord_id = :wordId/*Hämtar information utifrån det angivna ID:et*/
 
-GROUP BY
+GROUP BY/*Grupperar utifrån de angivna kolumnerna.*/
     ord.ord_id,
     ord.ord,
     ord.ord_typ,
@@ -107,32 +107,3 @@ GROUP BY
 
 // Sökning på definitioner som innehåller ordet "eller"
 // SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE definition.definition LIKE '%eller%';
-
-//SQL-fråga för att hämta ord, definitioner, exMeningar och ord typ
-/*SELECT//Väljer den information som ska hämtas
-    ord.ord_id,
-    ord.ord,
-    ord.ord_typ,
-    definition.def_id,
-    definition.definition,
-    GROUP_CONCAT(//Sammanfogar en definitions befintliga exM till en och samma rad.
-        ex_mening.mening
-        SEPARATOR '|'
-    ) AS exempelmeningar//Alias.
-
-FROM ord//Utgångspunkt
-
-LEFT JOIN definition
-    ON ord.ord_id = definition.ord_id//Kopplar ihop tabellerna via ord_id(villkor)
-
-LEFT JOIN ex_mening
-    ON definition.def_id = ex_mening.def_id//Kopplar ihop tabellerna via def_id(villkor)
-
-WHERE ord.ord_id = '1'//Hämtar endast information från rad 1.
-
-GROUP BY//Grupperar utifrån de angivna kolumnerna.
-    ord.ord_id,
-    ord.ord,
-    ord.ord_typ,
-    definition.def_id,
-    definition.definition;*/
