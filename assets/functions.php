@@ -66,33 +66,48 @@ function searchWord($search){
 function getWordInfo($wordId){
     global $ordbank;
 
-    $sql = "SELECT/*Väljer den information som ska hämtas*/
+    $sql = "SELECT
     ord.ord_id,
     ord.ord,
     ord.ord_typ,
     definition.def_id,
     definition.definition,
-    GROUP_CONCAT(/*Sammanfogar en definitions befintliga exM till en och samma rad.*/
-        ex_mening.mening
-        SEPARATOR '|'
-    ) AS exempelmeningar/*Alias.*/
 
-FROM ord/*Utgångspunkt*/
+    (
+        SELECT GROUP_CONCAT(
+            DISTINCT ex_mening.mening
+            SEPARATOR '|'
+        )
+        FROM ex_mening
+        WHERE ex_mening.def_id = definition.def_id
+    ) AS exempelmeningar,
+
+    (
+        SELECT GROUP_CONCAT(
+            ord_relation.relaterat_ord_id
+            ORDER BY ord_relation.relaterat_ord_id
+            SEPARATOR '|'
+        )
+        FROM ord_relation
+        WHERE ord_relation.ord_id = ord.ord_id
+    ) AS ordrelation,
+
+    (
+        SELECT GROUP_CONCAT(
+            ord_relation.relations_typ
+            ORDER BY ord_relation.relaterat_ord_id
+            SEPARATOR '|'
+        )
+        FROM ord_relation
+        WHERE ord_relation.ord_id = ord.ord_id
+    ) AS relationstyp
+
+FROM ord
 
 LEFT JOIN definition
-    ON ord.ord_id = definition.ord_id/*Kopplar ihop tabellerna via ord_id(villkor)*/
+    ON ord.ord_id = definition.ord_id
 
-LEFT JOIN ex_mening
-    ON definition.def_id = ex_mening.def_id
-
-WHERE ord.ord_id = :wordId/*Hämtar information utifrån det angivna ID:et*/
-
-GROUP BY/*Grupperar utifrån de angivna kolumnerna.*/
-    ord.ord_id,
-    ord.ord,
-    ord.ord_typ,
-    definition.def_id,
-    definition.definition";
+WHERE ord.ord_id = :wordId";
 
     $stmt = $ordbank->prepare($sql);
 
@@ -107,3 +122,39 @@ GROUP BY/*Grupperar utifrån de angivna kolumnerna.*/
 
 // Sökning på definitioner som innehåller ordet "eller"
 // SELECT * FROM `ord` INNER JOIN definition ON ord.ord_id = definition.ord_id WHERE definition.definition LIKE '%eller%';
+
+$sql = "SELECT/*Väljer den information som ska hämtas*/
+    ord.ord_id,
+    ord.ord,
+    ord.ord_typ,
+    definition.def_id,
+    definition.definition,
+    GROUP_CONCAT(/*Sammanfogar en definitions befintliga exM till en och samma rad.*/
+        ex_mening.mening
+        SEPARATOR '|'
+    ) AS exempelmeningar,/*Alias.*/
+
+    GROUP_CONCAT(
+        ord_relation.relaterat_ord_id
+        SEPARATOR '|'
+    ) AS relateratord
+
+FROM ord/*Utgångspunkt*/
+
+LEFT JOIN definition
+    ON ord.ord_id = definition.ord_id/*Kopplar ihop tabellerna via ord_id(villkor)*/
+
+LEFT JOIN ex_mening
+    ON definition.def_id = ex_mening.def_id
+
+INNER JOIN ord_relation
+    ON ord.ord_id = ord_relation.ord_id
+
+WHERE ord.ord_id = :wordId/*Hämtar information utifrån det angivna ID:et*/
+
+GROUP BY/*Grupperar utifrån de angivna kolumnerna.*/
+    ord.ord_id,
+    ord.ord,
+    ord.ord_typ,
+    definition.def_id,
+    definition.definition";

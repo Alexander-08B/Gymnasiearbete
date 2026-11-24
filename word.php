@@ -76,6 +76,19 @@ if (isset($_GET['word'])) {
         </td>
     </tr>
 
+    <tr>
+        <th>Ord relationer</th>
+        <td>
+            <?php foreach ($wordInfo as $wrd): ?>
+                <?php foreach (explode('|', $wrd['ordrelation'] ?? '') as $test): ?>
+                    <?php if ($test !== ''): ?>
+                        <p><?= htmlspecialchars($) ?></p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+
 </table>
 
 <?php else: ?>
