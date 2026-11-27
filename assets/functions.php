@@ -84,11 +84,13 @@ function getWordInfo($wordId){
 
     (
         SELECT GROUP_CONCAT(
-            ord_relation.relaterat_ord_id
-            ORDER BY ord_relation.relaterat_ord_id
+            DISTINCT relaterat_ord.ord
+            ORDER BY relaterat_ord.ord
             SEPARATOR '|'
         )
         FROM ord_relation
+       JOIN ord AS relaterat_ord
+            ON ord_relation.relaterat_ord_id = relaterat_ord.ord_id
         WHERE ord_relation.ord_id = ord.ord_id
     ) AS ordrelation,
 

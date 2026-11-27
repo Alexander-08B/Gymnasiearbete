@@ -77,17 +77,29 @@ if (isset($_GET['word'])) {
     </tr>
 
     <tr>
-        <th>Ord relationer</th>
+        <th>Synonymer</th>
         <td>
-            <?php foreach ($wordInfo as $wrd): ?>
-                <?php foreach (explode('|', $wrd['ordrelation'] ?? '') as $test): ?>
-                    <?php if ($test !== ''): ?>
-                        <p><?= htmlspecialchars($) ?></p>
-                    <?php endif; ?>
+            <?php $rT = explode('|', $wordInfo[0]['relationstyp'] ?? ''); $oR = explode('|', $wordInfo[0]['ordrelation'] ?? '');?>
+                <?php foreach ($oR as $index => $ordet): ?>
+                    <?php if (isset($rT[$index]) && $rT[$index] === 'synonym'): ?>
+                        <p><?= htmlspecialchars($ordet) ?></p>
+                         <?php endif; ?>
                 <?php endforeach; ?>
-            <?php endforeach; ?>
         </td>
     </tr>
+
+    <tr>
+        <th>Antonymer</th>
+        <td>
+            <?php $rT = explode('|', $wordInfo[0]['relationstyp'] ?? ''); $oR = explode('|', $wordInfo[0]['ordrelation'] ?? '');?>
+                <?php foreach ($oR as $index => $ordet): ?>
+                    <?php if (isset($rT[$index]) && $rT[$index] === 'antonym'): ?>
+                        <p><?= htmlspecialchars($ordet) ?></p>
+                         <?php endif; ?>
+                <?php endforeach; ?>
+        </td>
+    </tr>
+
 
 </table>
 
